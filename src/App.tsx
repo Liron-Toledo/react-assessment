@@ -63,6 +63,14 @@ function App() {
     fetchTransactions(1);
   }, []);
 
+  // Function to format the date as "time - date"
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const formattedDate = date.toLocaleDateString('en-GB');
+    return `${time} - ${formattedDate}`;
+  };
+
   // Function to render different possible states (e.g. loading, error, success, etc)
   const renderContent = () => {
     switch (loadingState) {
@@ -92,7 +100,7 @@ function App() {
               {transactions.map((transaction) => (
                 <tr key={transaction.id}>
                   <td style={tdStyle}>{transaction.id}</td>
-                  <td style={tdStyle}>{new Date(transaction.date).toLocaleString()}</td>
+                  <td style={tdStyle}>{formatDate(transaction.date)}</td>
                   <td style={tdStyle}>£{transaction.amount.toFixed(2)}</td>
                   <td style={tdStyle}>{transaction.merchant}</td>
                   <td style={tdStyle}>{transaction.category}</td>
